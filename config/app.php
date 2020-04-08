@@ -131,6 +131,10 @@ return [
 
     'apiToken' => '47sajnd3189hasf',
 
+    'serverIp' => '78.24.221.27',
+    'serverUser' => 'demo',
+    'serverPassword' => 'demo',
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

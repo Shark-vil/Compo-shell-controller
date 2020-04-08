@@ -35,3 +35,10 @@ Route::middleware('api.token')->put('/servers', 'Api\ServersApiController@put', 
 Route::middleware('api.token')->delete('/servers', 'Api\ServersApiController@delete', function (Request $request) {
     return $request;
 });
+
+/**
+ * API Shell
+ */
+Route::middleware('api.token')->post('/shell', 'Api\ShellApiController@post_exec', function (Request $request) {
+    return $request;
+});
