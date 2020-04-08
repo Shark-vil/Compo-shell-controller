@@ -18,7 +18,7 @@ class ServersApiController extends Controller
 
     public function post(Request $request)
     {
-        if ($request->id && $request->ip && $request->user && $request->password) {
+        if ($request->ip && $request->user && $request->password) {
             $LastId = Servers::insertGetId($request->except('token'));
             return ['success' => true, 'content' => Servers::where('id', $LastId)->first()];
         }
