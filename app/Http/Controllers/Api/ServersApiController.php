@@ -19,7 +19,7 @@ class ServersApiController extends Controller
     public function post(Request $request)
     {
         if ($request->ip && $request->user && $request->password) {
-            $request->merge(['password' => password_hash($request->password, PASSWORD_DEFAULT)]);
+            // $request->merge(['password' => password_hash($request->password, PASSWORD_DEFAULT)]);
             $LastId = Servers::insertGetId($request->except('token'));
             return ['success' => true, 'content' => Servers::where('id', $LastId)->first()];
         }
