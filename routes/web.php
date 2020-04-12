@@ -30,6 +30,7 @@ Route::get('/servers', 'ServersController@index')->name('servers');
 Route::get('/servers/add', 'ServersController@add')->name('servers.add');
 Route::get('/servers/console/{id}', 'ServersController@console')->name('servers.console');
 Route::get('/servers/delete/{id}', 'ServersController@delete')->name('servers.delete');
+Route::get('/servers/edit/{id}', 'ServersController@edit')->name('servers.edit');
 
 Route::get('/logs', 'LogsController@index')->name('logs');
 

@@ -119,7 +119,7 @@
                                     console.error( "Error request: " + response );
 
                                     $("#alert-block").append('<div id="' + AlertId + '" class="alert alert-danger">' +
-                                    'Ошибка отрпавки запроса.' +
+                                    'Ошибка отправки запроса.' +
                                     '</div>');
 
                                     AlertFade();

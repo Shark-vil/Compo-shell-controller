@@ -55,4 +55,13 @@ class ServersController extends Controller
 
         $this->index();
     }
+
+    public function edit(int $id) {
+        $server = Servers::where('id', $id)->first();
+
+        if ($server)
+            return view('servers\edit', ['server' => $server,'token' => $this->GetUserToken()]);
+
+        $this->index();
+    }
 }
