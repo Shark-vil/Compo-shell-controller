@@ -3,6 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+//use Auth;
+//use Illuminate\Support\Facades\Auth;
+use App\UserToken;
 
 class ApiToken
 {
@@ -15,10 +18,14 @@ class ApiToken
      */
     public function handle($request, Closure $next)
     {
-        if ($request->token != config()->get('app.apiToken')) {
-            return ['success' => false, 'content' => 'Bad token.'];
+        if ($request->token == config()->get('app.apiSecretToken')) {
+            return $next($request);
         }
         
-        return $next($request);
+        if (auth()->check() && $request->token == UserToken::where('user_id', auth()->user()->id)->first()->token) {
+            return $next($request);
+        }
+        
+        return response(['success' => false, 'content' => 'Bad token.' . $request->token], 503);
     }
 }

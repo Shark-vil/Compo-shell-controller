@@ -26,4 +26,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/servers', 'ServersController@index');
+Route::get('/servers', 'ServersController@index')->name('servers');
+Route::get('/servers/add', 'ServersController@add')->name('servers.add');
+Route::get('/servers/console/{id}', 'ServersController@console')->name('servers.console');
+Route::get('/servers/delete/{id}', 'ServersController@delete')->name('servers.delete');
+
+Route::get('/logs', 'LogsController@index')->name('logs');
+
+// Route::middleware('auth.check')->get('/terminal', 'Api\ShellApiController@get_terminal');

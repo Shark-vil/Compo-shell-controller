@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServersTable extends Migration
+class CreatePublicTokensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateServersTable extends Migration
      */
     public function up()
     {
-        Schema::create('servers', function (Blueprint $table) {
+        Schema::create('public_tokens', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('ip');
-            $table->integer('port');
-            $table->string('user');
-            $table->string('password');
+            $table->string('token');
+            $table->integer('eternal')->default(0);
+            $table->dateTime('lives_time');
+            $table->integer('active')->default(1);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateServersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('servers');
+        Schema::dropIfExists('public_tokens');
     }
 }

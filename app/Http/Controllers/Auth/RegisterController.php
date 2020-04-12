@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\UserToken;
 
 class RegisterController extends Controller
 {
@@ -63,10 +64,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        if (!UserToken::where('user_id', $user->id)->first()) {
+            $data = [];
+            $data['user_id'] = $user->id;
+            $data['token'] = md5($user->email . date('YmdHis'));
+            UserToken::insert($data);
+        }
+
+        return $user;
     }
 }

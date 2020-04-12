@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Auth\Middleware\Authenticate;
+use App\UserToken;
 
 class LoginController extends Controller
 {
@@ -35,5 +37,12 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function authenticated($request, $user) {
+        $data = [];
+        $data['user_id'] = $user->id;
+        $data['token'] = md5($user->name . date('YmdHis'));
+        UserToken::where('user_id', $user->id)->update($data);
     }
 }

@@ -18,9 +18,8 @@ class ServersApiController extends Controller
 
     public function post(Request $request)
     {
-        if ($request->ip && $request->user && $request->password) {
-            // $request->merge(['password' => password_hash($request->password, PASSWORD_DEFAULT)]);
-            $LastId = Servers::insertGetId($request->except('token'));
+        if ($request->ip && $request->port && $request->user && $request->password) {
+            $LastId = Servers::insertGetId($request->except('token', '_token'));
             return ['success' => true, 'content' => Servers::where('id', $LastId)->first()];
         }
 
@@ -30,8 +29,8 @@ class ServersApiController extends Controller
     public function put(Request $request)
     {
         if ($request->id) {
-            if ($request->ip || $request->user || $request->password) {
-                Servers::where('id', $request->id)->update($request->except('token'));
+            if ($request->ip || $request->port || $request->user || $request->password) {
+                Servers::where('id', $request->id)->update($request->except('token', '_token'));
                 return ['success' => true, 'content' => Servers::where('id', $request->id)->first()];
             }
         }
@@ -40,7 +39,7 @@ class ServersApiController extends Controller
     }
 
     public function delete(Request $request)
-    {
+    {        
         if ($request->id) {
             $TempData = Servers::where('id', $request->id)->first();
             
