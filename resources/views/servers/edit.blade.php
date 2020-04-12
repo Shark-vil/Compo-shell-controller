@@ -12,22 +12,22 @@
                 <div class="card-body">
                     <div id="alert-block"></div>
 
-                    <form>
+                    <form id="id-form-action">
                         <div class="form-group">
                             <label>Ip сервера</label>
-                            <input id="id-serverip" type="text" class="form-control" aria-describedby="emailHelp" placeholder="Введите ip сервера" value="{{ $server->ip }}">
+                            <input id="id-serverip" type="text" class="form-control" aria-describedby="emailHelp" required placeholder="Введите ip сервера" value="{{ $server->ip }}">
                         </div>
                         <div class="form-group">
                             <label>Port сервера</label>
-                            <input id="id-serverPort" name="port" type="number" class="form-control" placeholder="Введите порт сервера" value="{{ $server->port }}">
+                            <input id="id-serverPort" name="port" type="number" class="form-control" required placeholder="Введите порт сервера" value="{{ $server->port }}">
                         </div>
                         <div class="form-group">
                             <label>Имя пользователя сервера</label>
-                            <input id="id-serverUser" name="user" type="text" class="form-control" placeholder="Введите имя пользователя сервера" value="{{ $server->user }}">
+                            <input id="id-serverUser" name="user" type="text" class="form-control" required placeholder="Введите имя пользователя сервера" value="{{ $server->user }}">
                         </div>
                         <div class="form-group">
                             <label>Пароль пользователя сервера</label>
-                            <input id="id-serverPassword" name="password" type="password" class="form-control" placeholder="Введите пароль пользователя сервера">
+                            <input id="id-serverPassword" name="password" type="password" class="form-control" required autocomplete="new-password" placeholder="Введите пароль пользователя сервера">
                             <small class="form-text text-muted">Пароли сервера не выкладываются в общий доступ</small>
                         </div>
                         <input name="token" type="hidden" class="form-control" value="{{ $token }}">
@@ -37,7 +37,7 @@
                                     class="btn btn-primary">Назад</a>
                             </div>
                             <div>
-                                <input type="button" id="id-send-button" class="btn btn-primary" value="Обновить"/>
+                                <input type="submit" class="btn btn-primary" value="Обновить"/>
                             </div>
                         </div>
                     </form>
@@ -68,7 +68,9 @@
                 }, DelayTime + 1500);
             }
 
-            $("#id-send-button").click(function(e) {
+            $('#id-form-action').on('submit', function(e) {
+                e.preventDefault();
+
                 var serverIp = $("#id-serverip");
                 var serverPort = $("#id-serverPort");
                 var serverUser = $("#id-serverUser");
