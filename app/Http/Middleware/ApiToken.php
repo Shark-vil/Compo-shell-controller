@@ -18,7 +18,7 @@ class ApiToken
      */
     public function handle($request, Closure $next)
     {
-        if ($request->token == config()->get('app.apiSecretToken')) {
+        if (!empty(config()->get('app.apiSecretToken')) && $request->token == config()->get('app.apiSecretToken')) {
             return $next($request);
         }
         
