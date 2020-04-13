@@ -18,7 +18,7 @@ class CreatePublicTokensTable extends Migration
             $table->string('token');
             $table->integer('eternal')->default(0);
             $table->dateTime('lives_time');
-            $table->integer('active')->default(1);
+            $table->boolean('active')->default(true);
             $table->timestamps();
         });
     }

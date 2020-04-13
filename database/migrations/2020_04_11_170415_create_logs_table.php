@@ -15,6 +15,7 @@ class CreateLogsTable extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('server_id');
             $table->date('date');
             $table->time('time');
@@ -24,6 +25,7 @@ class CreateLogsTable extends Migration
         });
 
         Schema::table('logs', function($table) {
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('server_id')->references('id')->on('servers');
         });
     }

@@ -23,7 +23,8 @@ class ShellApiController extends Controller
                 $result = stream_get_contents($stream_out);
 
                 $Data = [];
-                $Data['server_id'] = $request->id;
+                $Data['user_id'] = $request->user_id;
+                $Data['server_id'] = $request->server_id;
                 $Data['date'] = date("Y-m-d");
                 $Data['time'] = date("H:i:s");
                 $Data['command'] = $request->command;

@@ -25,6 +25,8 @@ Route::get('/dev-help', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/profile', 'ProfileController@index')->name('profile');
+Route::get('/profile/settings', 'ProfileController@settings')->name('profile.settings');
 
 Route::get('/server', 'ServerController@index')->name('server');
 Route::get('/server/add', 'ServerController@add')->name('server.add');

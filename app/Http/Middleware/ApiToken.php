@@ -21,6 +21,16 @@ class ApiToken
         if (!empty(config()->get('app.apiSecretToken')) && $request->token == config()->get('app.apiSecretToken')) {
             return $next($request);
         }
+
+        if (isset($request->user_id)){
+            $PublicToken = PublicToken::where('user_id', $request->user_id)->first();
+
+            if ($PublicToken && ($PublicToken->eternal == 1 || ($PublicToken->active == 1 && $PublicToken->dateTime > date("Y-m-d")))) {
+                if ($request->token == $PublicToken->token) {
+                    return $next($request);
+                }
+            }
+        }
         
         if (auth()->check() && $request->token == UserToken::where('user_id', auth()->user()->id)->first()->token) {
             return $next($request);

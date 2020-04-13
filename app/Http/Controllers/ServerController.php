@@ -40,7 +40,7 @@ class ServerController extends Controller
 
     public function console(int $id)
     {
-        return view('server\console', ['server' => Server::where('id', $id)->first(), 'token' => $this->GetUserToken()]);
+        return view('server\console', ['server' => Server::where('id', $id)->first(), 'token' => $this->GetUserToken(), 'user_id' => auth()->user()->id]);
     }
 
     public function add()

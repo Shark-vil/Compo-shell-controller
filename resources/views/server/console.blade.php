@@ -40,6 +40,7 @@
             var TextareaConsoleLog = $("#textarea_console_log");
             var InputConsoleCommand = $("#input_console_command");
             
+            var UserId = '{{ $user_id }}';
             var ServerId = '{{ $server->id }}';
             var ServerIp = '{{ $server->ip }}';
             var ServerPort = '{{ $server->port }}';
@@ -63,7 +64,8 @@
                 }
 
                 var DataSend = {
-                    id: ServerId,
+                    user_id: UserId,
+                    server_id: ServerId,
                     ip: ServerIp,
                     port: ServerPort,
                     user: ServerUser,
@@ -103,7 +105,7 @@
                     error: function(response){
                         console.error( "Error request: " + response );
                         if (response.content == undefined) {
-                            TextareaConsoleLog.val(TextareaOldValue + "Error request (false): \n> There is no connection to the server.\n");
+                            TextareaConsoleLog.val(TextareaOldValue + "Error request (false): \n> An error occurred while sending the request.\n");
                         } else {
                             TextareaConsoleLog.val(TextareaOldValue + "Error request (false): \n> " + response.content + "\n");
                         }

@@ -15,7 +15,13 @@ class CreateScriptsTable extends Migration
     {
         Schema::create('scripts', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('server_id');
+            $table->string('command');
             $table->timestamps();
+        });
+
+        Schema::table('scripts', function($table) {
+            $table->foreign('server_id')->references('id')->on('servers');
         });
     }
 
