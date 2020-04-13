@@ -18,8 +18,7 @@
 
                     <div class="d-flex justify-content-between">
                         <div>
-                            <a role="button" href="{{ route('servers') }}" 
-                                class="btn btn-primary">Назад</a>
+                            <a role="button" href="{{ route('server') }}" class="btn btn-primary">Назад</a>
                         </div>
                         <div>
                             <input id="id-send-console-command" type="button" id="id-send-button" class="btn btn-primary" value="Отправить"/>
@@ -41,6 +40,7 @@
             var TextareaConsoleLog = $("#textarea_console_log");
             var InputConsoleCommand = $("#input_console_command");
             
+            var ServerId = '{{ $server->id }}';
             var ServerIp = '{{ $server->ip }}';
             var ServerPort = '{{ $server->port }}';
             var ServerUser = '{{ $server->user }}';
@@ -63,6 +63,7 @@
                 }
 
                 var DataSend = {
+                    id: ServerId,
                     ip: ServerIp,
                     port: ServerPort,
                     user: ServerUser,
@@ -93,7 +94,7 @@
                             console.error( "Error response: " + response );
 
                             if (!IsClear) {
-                                TextareaConsoleLog.val(TextareaOldValue + "Error response (" + response.success + "): \n> " + response.content);
+                                TextareaConsoleLog.val(TextareaOldValue + "Error response (" + response.success + "): \n> " + response.content + "\n");
                             }
                         }
 
@@ -101,7 +102,11 @@
                     },
                     error: function(response){
                         console.error( "Error request: " + response );
-                        TextareaConsoleLog.val(TextareaOldValue + "Error request (false): \n> " + response.content);
+                        if (response.content == undefined) {
+                            TextareaConsoleLog.val(TextareaOldValue + "Error request (false): \n> There is no connection to the server.\n");
+                        } else {
+                            TextareaConsoleLog.val(TextareaOldValue + "Error request (false): \n> " + response.content + "\n");
+                        }
                     }
                 });
             }

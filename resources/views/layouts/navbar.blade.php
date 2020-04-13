@@ -7,8 +7,8 @@
             <li class="nav-item {{ Request::is('home') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('home') }}">Домашняя страница</a>
             </li>
-            <li class="nav-item {{ (Request::is('servers') || Request::is('servers/*')) ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('servers') }}">Список серверов</a>
+            <li class="nav-item {{ (Request::is('server') || Request::is('server/*')) ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('server') }}">Список серверов</a>
             </li>
         </ul>
     </div>

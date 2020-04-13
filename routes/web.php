@@ -26,12 +26,13 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/servers', 'ServersController@index')->name('servers');
-Route::get('/servers/add', 'ServersController@add')->name('servers.add');
-Route::get('/servers/console/{id}', 'ServersController@console')->name('servers.console');
-Route::get('/servers/delete/{id}', 'ServersController@delete')->name('servers.delete');
-Route::get('/servers/edit/{id}', 'ServersController@edit')->name('servers.edit');
-
-Route::get('/logs', 'LogsController@index')->name('logs');
+Route::get('/server', 'ServerController@index')->name('server');
+Route::get('/server/add', 'ServerController@add')->name('server.add');
+Route::get('/server/console/{id}', 'ServerController@console')->name('server.console');
+Route::get('/server/scripts/{id}', 'ServerController@scripts')->name('server.scripts');
+Route::get('/server/delete/{id}', 'ServerController@delete')->name('server.delete');
+Route::get('/server/edit/{id}', 'ServerController@edit')->name('server.edit');
+Route::get('/server/logs/{id}', 'ServerController@logs')->name('server.logs');
+Route::get('/server/logs/{id}/{date}', 'ServerController@logsDate')->name('server.logs.date');
 
 // Route::middleware('auth.check')->get('/terminal', 'Api\ShellApiController@get_terminal');

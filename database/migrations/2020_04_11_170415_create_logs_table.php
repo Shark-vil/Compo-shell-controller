@@ -19,7 +19,7 @@ class CreateLogsTable extends Migration
             $table->date('date');
             $table->time('time');
             $table->string('command');
-            $table->string('result');
+            $table->text('result');
             $table->timestamps();
         });
 

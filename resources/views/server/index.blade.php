@@ -8,7 +8,7 @@
                 @include('layouts.navbar')
                 <div class="card-body">
                     <div class="alert alert-info">
-                        <a class="btn btn-primary btn-sm btn-default float-right" role="button" href="{{ URL::to("/servers/add") }}">Добавить новую запись</a>
+                        <a class="btn btn-primary btn-sm btn-default float-right" role="button" href="{{ route('server.add') }}">Добавить сервер</a>
                         <br>
                     </div>
                     
@@ -35,10 +35,10 @@
                                         Действия
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a role="button" href="{{ URL::to("/servers/console/{$server->id}") }}" class="dropdown-item">Открыть консоль</a>
-                                        <a role="button" href="{{ URL::to("/servers/scripts/{$server->id}") }}" class="dropdown-item">Выполнить скрипт</a>
-                                        <a role="button" href="{{ URL::to("/servers/logs/{$server->id}") }}" class="dropdown-item">Лог</a>
-                                        <a role="button" href="{{ URL::to("/servers/edit/{$server->id}") }}" class="dropdown-item">Изменить</a>
+                                        <a role="button" href="{{ route('server.console', ['id' => $server->id]) }}" class="dropdown-item">Открыть консоль</a>
+                                        <a role="button" href="{{ route('server.scripts', ['id' => $server->id]) }}" class="dropdown-item">Управление скриптами</a>
+                                        <a role="button" href="{{ route('server.logs', ['id' => $server->id]) }}" class="dropdown-item">Лог</a>
+                                        <a role="button" href="{{ route('server.edit', ['id' => $server->id]) }}" class="dropdown-item">Изменить</a>
                                         <a id="id-delete" data-id="{{ $server->id }}" role="button" href="#" class="dropdown-item">Удалить</a>
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@
                             
                             $.ajax({
                                 type: "DELETE",
-                                url: "{{ route('api.servers') }}",
+                                url: "{{ route('api.server') }}",
                                 data: SendData,
                                 success: function(response){
                                     AlertIdUpdate();

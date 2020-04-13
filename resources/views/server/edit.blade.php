@@ -33,7 +33,7 @@
                         <input name="token" type="hidden" class="form-control" value="{{ $token }}">
                         <div class="d-flex justify-content-between">
                             <div>
-                                <a role="button" href="{{ route('servers') }}" 
+                                <a role="button" href="{{ route('server') }}" 
                                     class="btn btn-primary">Назад</a>
                             </div>
                             <div>
@@ -88,7 +88,7 @@
 
                 $.ajax({
                     type: "PUT",
-                    url: "{{ route('api.servers') }}",
+                    url: "{{ route('api.server') }}",
                     data: SendData,
                     success: function(response){
                         AlertIdUpdate();
