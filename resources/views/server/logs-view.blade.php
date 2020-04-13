@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
+                {{ Breadcrumbs::render('server.logs.date', ['date' => $date, 'id' => $id]) }}
+
                 @include('layouts.navbar')
+
                 <div class="card-body">
                     <div class="alert alert-info">
                         <a class="btn btn-primary btn-sm btn-default float-right" role="button" href="{{ route('server.logs', ['id' => $id]) }}">Назад</a>

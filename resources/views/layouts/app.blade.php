@@ -62,8 +62,11 @@
                                     <a class="dropdown-item" href="{{ route('profile') }}">
                                         Профиль
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('profile.settings') }}">
+                                    <a class="dropdown-item" href="{{ route('profile.edit') }}">
                                         Настройки профиля
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('profile.edit.token') }}">
+                                        Настройки токена
                                     </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

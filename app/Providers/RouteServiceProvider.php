@@ -41,7 +41,16 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapWebBreadCrumbs();
+
         //
+    }
+
+    protected function mapWebBreadCrumbs()
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/breadcrumbs.php'));
     }
 
     /**

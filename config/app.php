@@ -129,7 +129,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'apiSecretToken' => '73issdkShkSH377IAIasaSAG90znCBgd347df8ASYSHfhAF3Sf',
+    //'apiSecretToken' => '73issdkShkSH377IAIasaSAG90znCBgd347df8ASYSHfhAF3Sf',
 
     /*
     |--------------------------------------------------------------------------
@@ -182,6 +182,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TokenControlServiceProvider::class,
 
     ],
 
@@ -233,6 +234,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'TokenControl' => App\Facades\TokenControlService::class,
 
     ],
 

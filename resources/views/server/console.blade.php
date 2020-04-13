@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
+                {{ Breadcrumbs::render('server.console', $id) }}
+
                 @include('layouts.navbar')
+
                 <div class="card-body">
                     <div class="form-group">
                         <label for="exampleFormControlTextarea1">Результат:</label>

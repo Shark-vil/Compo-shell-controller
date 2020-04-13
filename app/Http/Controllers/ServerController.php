@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Server;
-use App\Log;
 use Illuminate\Http\Request;
 use Auth;
 use App\UserToken;
+use TokenControl;
 
 class ServerController extends Controller
 {
@@ -22,12 +22,6 @@ class ServerController extends Controller
         $this->middleware('auth');
     }
 
-    protected function GetUserToken()
-    {
-        $this->UserToken = UserToken::where('user_id', Auth::user()->id)->first()->token;
-        return $this->UserToken;
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -35,17 +29,17 @@ class ServerController extends Controller
      */
     public function index()
     {
-        return view('server\index', ['servers' => Server::all(), 'token' => $this->GetUserToken()]);
+        return view('server\index', ['servers' => Server::all(), 'token' => TokenControl::GetUserToken()]);
     }
 
     public function console(int $id)
     {
-        return view('server\console', ['server' => Server::where('id', $id)->first(), 'token' => $this->GetUserToken(), 'user_id' => auth()->user()->id]);
+        return view('server\console', ['id' => $id, 'server' => Server::where('id', $id)->first(), 'token' => TokenControl::GetUserToken(), 'user_id' => auth()->user()->id]);
     }
 
     public function add()
     {
-        return view('server\add', ['token' => $this->GetUserToken()]);
+        return view('server\add', ['token' => TokenControl::GetUserToken()]);
     }
 
     public function delete(int $id) {
@@ -54,39 +48,15 @@ class ServerController extends Controller
             $server->delete();
         }
 
-        $this->index();
+        return redirect()->route('server');
     }
 
     public function edit(int $id) {
         $server = Server::where('id', $id)->first();
 
         if ($server)
-            return view('server\edit', ['server' => $server,'token' => $this->GetUserToken()]);
+            return view('server\edit', ['id' => $id, 'server' => $server,'token' => TokenControl::GetUserToken()]);
 
-        $this->index();
-    }
-
-    public function logs(int $id) {
-        $logs = Log::where('server_id', $id)->select('date')->groupBy('date')->get();
-
-        if ($logs)
-            return view('server\logs', ['id' => $id, 'logs' => $logs]);
-
-        $this->index();
-    }
-
-    public function logsDate(int $id, string $date)
-    {
-        $logs = Log::where('date', $date)->get();
-
-        if ($logs)
-            return view('server\logs-view', ['id' => $id, 'logs' => $logs]);
-
-        $this->index();
-    }
-
-    public function scripts()
-    {
-        
+        return redirect()->route('server');
     }
 }

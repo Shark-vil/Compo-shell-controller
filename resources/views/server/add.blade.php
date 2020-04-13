@@ -5,9 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
+                {{ Breadcrumbs::render('server.add') }}
+
                 @include('layouts.navbar')
-                
-                <div class="card-header">Добавление сервера</div>
 
                 <div class="card-body">
                     <div id="alert-block"></div>
@@ -15,7 +15,7 @@
                     <form id="id-form-action">
                         <div class="form-group">
                             <label>Ip сервера</label>
-                            <input id="id-serverip" type="text" class="form-control" aria-describedby="emailHelp" required placeholder="Введите ip сервера">
+                            <input id="id-serverip" type="text" class="form-control" required placeholder="Введите ip сервера">
                         </div>
                         <div class="form-group">
                             <label>Port сервера</label>
@@ -30,7 +30,6 @@
                             <input id="id-serverPassword" name="password" type="password" class="form-control" required autocomplete="new-password" placeholder="Введите пароль пользователя сервера">
                             <small class="form-text text-muted">Пароли сервера не выкладываются в общий доступ</small>
                         </div>
-                        <input name="token" type="hidden" class="form-control" value="{{ $token }}">
                         <div class="d-flex justify-content-between">
                             <div>
                                 <a role="button" href="{{ route('server') }}" 

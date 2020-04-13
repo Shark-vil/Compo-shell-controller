@@ -26,15 +26,20 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile', 'ProfileController@index')->name('profile');
-Route::get('/profile/settings', 'ProfileController@settings')->name('profile.settings');
+Route::get('/profile/edit', 'ProfileController@settings')->name('profile.edit');
+Route::get('/profile/edit/token', 'ProfileController@settingsToken')->name('profile.edit.token');
 
 Route::get('/server', 'ServerController@index')->name('server');
 Route::get('/server/add', 'ServerController@add')->name('server.add');
-Route::get('/server/console/{id}', 'ServerController@console')->name('server.console');
-Route::get('/server/scripts/{id}', 'ServerController@scripts')->name('server.scripts');
 Route::get('/server/delete/{id}', 'ServerController@delete')->name('server.delete');
 Route::get('/server/edit/{id}', 'ServerController@edit')->name('server.edit');
-Route::get('/server/logs/{id}', 'ServerController@logs')->name('server.logs');
-Route::get('/server/logs/{id}/{date}', 'ServerController@logsDate')->name('server.logs.date');
+Route::get('/server/console/{id}', 'ServerController@console')->name('server.console');
+
+Route::get('/server/logs/{id}', 'LogController@logs')->name('server.logs');
+Route::get('/server/logs/{id}/{date}', 'LogController@logsDate')->name('server.logs.date');
+
+Route::get('/server/scripts/{server_id}', 'ScriptController@index')->name('server.scripts');
+Route::get('/server/scripts/{server_id}/add', 'ScriptController@add')->name('server.scripts.add');
+Route::get('/server/scripts/{server_id}/{script_id}', 'ScriptController@edit')->name('server.scripts.edit');
 
 // Route::middleware('auth.check')->get('/terminal', 'Api\ShellApiController@get_terminal');

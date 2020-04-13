@@ -5,11 +5,13 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                {{ Breadcrumbs::render('server') }}
+                {{ Breadcrumbs::render('server.scripts', $server_id) }}
+
                 @include('layouts.navbar')
+                
                 <div class="card-body">
                     <div class="alert alert-info">
-                        <a class="btn btn-primary btn-sm btn-default float-right" role="button" href="{{ route('server.add') }}">Добавить сервер</a>
+                        <a class="btn btn-primary btn-sm btn-default float-right" role="button" href="{{ route('server.scripts.add', $server_id) }}">Добавить скрипт</a>
                         <br>
                     </div>
                     
@@ -19,28 +21,26 @@
                         <thead>
                             <tr>
                             <th scope="col">#</th>
-                            <th scope="col">IP</th>
-                            <th scope="col">Пользователь</th>
+                            <th scope="col">Описание</th>
+                            <th scope="col">Команда вызова</th>
                             <th scope="col">Действия</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($servers as $server)
+                            @foreach ($scripts as $script)
                             <tr>
-                            <td>{{ $server->id }}</td>
-                            <td>{{ $server->ip }}</td>
-                            <td>{{ $server->user }}</td>
+                            <td>{{ $script->id }}</td>
+                            <td>{{ $script->description }}</td>
+                            <td>{{ $script->command }}</td>
                             <td>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Действия
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a role="button" href="{{ route('server.console', ['id' => $server->id]) }}" class="dropdown-item">Открыть консоль</a>
-                                        <a role="button" href="{{ route('server.scripts', ['id' => $server->id]) }}" class="dropdown-item">Управление скриптами</a>
-                                        <a role="button" href="{{ route('server.logs', ['id' => $server->id]) }}" class="dropdown-item">Лог</a>
-                                        <a role="button" href="{{ route('server.edit', ['id' => $server->id]) }}" class="dropdown-item">Изменить</a>
-                                        <a id="id-delete" data-id="{{ $server->id }}" role="button" href="#" class="dropdown-item">Удалить</a>
+                                        <a id="id-exec" data-id="{{ $script->id }}" role="button" href="#" class="dropdown-item">Выполнить скрипт</a>
+                                        <a role="button" href="{{ route('server.scripts.edit', ['server_id' => $server_id, 'script_id' => $script->id]) }}" class="dropdown-item">Изменить</a>
+                                        <a id="id-delete" data-id="{{ $script->id }}" role="button" href="#" class="dropdown-item">Удалить</a>
                                     </div>
                                 </div>
                             </td>
@@ -79,8 +79,8 @@
                 var MainA = $(this);
 
                 $.confirm({
-                    title: 'Удаление сервера.',
-                    content: 'Вы действительно хотите удалить сервер?',
+                    title: 'Удаление команды.',
+                    content: 'Вы действительно хотите удалить команду?',
                     buttons: {
                         Да: function () {
                             var SendData = {
@@ -91,7 +91,7 @@
                             
                             $.ajax({
                                 type: "DELETE",
-                                url: "{{ route('api.server') }}",
+                                url: "{{ route('api.server.script') }}",
                                 data: SendData,
                                 success: function(response){
                                     AlertIdUpdate();
@@ -100,7 +100,7 @@
                                         console.log( "Response: " + response.content );
 
                                         $("#alert-block").append('<div id="' + AlertId + '" class="alert alert-success">' +
-                                        'Сервер удалён.' +
+                                        'Команда удалёна.' +
                                         '</div>');
 
                                         MainA.parent().parent().parent().parent().remove();
@@ -108,7 +108,62 @@
                                         console.error( "Error response: " + response );
 
                                         $("#alert-block").append('<div id="' + AlertId + '" class="alert alert-warning">' +
-                                        'Не удалось удалить сервер.' +
+                                        'Не удалось удалить команду.' +
+                                        '</div>');
+                                    }
+                                    
+                                    AlertFade();
+                                },
+                                error: function(response){
+                                    AlertIdUpdate();
+
+                                    console.error( "Error request: " + response );
+
+                                    $("#alert-block").append('<div id="' + AlertId + '" class="alert alert-danger">' +
+                                    'Ошибка отправки запроса.' +
+                                    '</div>');
+
+                                    AlertFade();
+                                }
+                            });
+                        },
+                        Нет: function () {},
+                    }
+                });
+            });
+
+            $('[id^="id-exec"]').click(function(e) {
+                var MainA = $(this);
+
+                $.confirm({
+                    title: 'Выполнение команды.',
+                    content: 'Вы действительно хотите выполнить команду?',
+                    buttons: {
+                        Да: function () {
+                            var SendData = {
+                                id: MainA.data("id"),
+                                token: "{{ $token }}",
+                                _token: "{{ csrf_token() }}"
+                            };
+                            
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('api.shell.script-exec') }}",
+                                data: SendData,
+                                success: function(response){
+                                    AlertIdUpdate();
+
+                                    if (response.success) {
+                                        console.log( "Response: " + response.content );
+
+                                        $("#alert-block").append('<div id="' + AlertId + '" class="alert alert-success">' +
+                                        'Команда выполнена.' +
+                                        '</div>');
+                                    } else {
+                                        console.error( "Error response: " + response );
+
+                                        $("#alert-block").append('<div id="' + AlertId + '" class="alert alert-warning">' +
+                                        'Не удалось выполнить команду.' +
                                         '</div>');
                                     }
                                     
