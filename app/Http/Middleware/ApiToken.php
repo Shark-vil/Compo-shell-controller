@@ -19,21 +19,15 @@ class ApiToken
      */
     public function handle($request, Closure $next)
     {
-        /*
-        if (!empty(config()->get('app.apiSecretToken')) && $request->token == config()->get('app.apiSecretToken')) {
-            return $next($request);
-        }
-        */
-
-        if (auth()->check() && $request->token == UserToken::where('user_id', auth()->user()->id)->first()->token) {
+        if (auth()->check() && auth()->user()->user_token()->first()) {
             return $next($request);
         }
         
-        $PublicToken = PublicToken::where('token', $request->token)->first();
-        
-        if ($PublicToken && ($PublicToken->eternal == 1 || ($PublicToken->active == 1 && $PublicToken->dateTime > date("Y-m-d h:i:s")))) {
-            if ($request->token == $PublicToken->token) {
-                return $next($request);
+        if ($public_token = auth()->user()->public_token()->first()) {
+            if ($public_token->eternal == 1 || ($public_token->active == 1 && $public_token->dateTime > date("Y-m-d h:i:s"))) {
+                if ($request->token == $public_token->token) {
+                    return $next($request);
+                }
             }
         }
         

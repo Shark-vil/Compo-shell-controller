@@ -103,7 +103,7 @@
                                         'Команда удалёна.' +
                                         '</div>');
 
-                                        MainA.parent().parent().parent().parent().remove();
+                                        MainA.closest('tr').remove();
                                     } else {
                                         console.error( "Error response: " + response );
 

@@ -19,29 +19,26 @@ class ProfileController extends Controller
         $this->middleware('auth');
     }
 
-    protected function GetUserToken()
-    {
-        $this->UserToken = UserToken::where('user_id', auth()->user()->id)->first()->token;
-        return $this->UserToken;
-    }
-
     public function index()
     {
         $user = auth()->user();
-        $userToken = PublicToken::where('user_id', $user->id)->first();
+        $userToken = $user->public_token()->first();
+        $content = ($userToken) ? $userToken->token : 'Токен не создан';
 
-        return view('profile\index', ['user' => $user, 'token' => ($userToken) ? $userToken->token : 'Токен не создан']);
+        return view('profile\index', ['user' => $user, 'token' => $content]);
     }
 
     public function settings()
     {
         $user = auth()->user();
-        return view('profile\settings', ['user' => $user, 'token' => $this->GetUserToken()]);
+
+        return view('profile\settings', ['user' => $user, 'token' => $user->user_token()->first()->token]);
     }
 
     public function settingsToken()
     {
         $user = auth()->user();
-        return view('profile\settings-token', ['user' => $user, 'token' => $this->GetUserToken()]);
+
+        return view('profile\settings-token', ['user' => $user, 'token' => $user->user_token()->first()->token]);
     }
 }
