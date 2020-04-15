@@ -13,13 +13,18 @@ class ShellApiController extends Controller
 {
     protected $session;
 
+    private $ciphering = "AES-128-CTR";
+    private $crypt_salt = '1234567891011121';
+
     public function post_exec(Request $request)
     {
         if ($request->ip && $request->user && $request->password && $request->command) {
             $this->session = ssh2_connect($request->ip, $request->port);
 
             if ($this->session) {
-                ssh2_auth_password($this->session, $request->user, $request->password);
+                $decryption_password = openssl_decrypt($request->password, $this->ciphering, openssl_digest($request->user, 'MD5', TRUE), 0, $this->crypt_salt);
+
+                ssh2_auth_password($this->session, $request->user, $decryption_password);
                 $stream = ssh2_exec($this->session,  $request->command);
                 stream_set_blocking($stream, true);
                 $stream_out = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
@@ -57,7 +62,9 @@ class ShellApiController extends Controller
                 $this->session = ssh2_connect($server->ip, $server->port);
 
                 if ($this->session) {
-                    ssh2_auth_password($this->session, $server->user, $server->password);
+                    $decryption_password = openssl_decrypt($request->password, $this->ciphering, openssl_digest($request->user, 'MD5', TRUE), 0, $this->crypt_salt);
+
+                    ssh2_auth_password($this->session, $server->user, $decryption_password);
                     $stream = ssh2_exec($this->session,  $script->command);
                     stream_set_blocking($stream, true);
                     $stream_out = ssh2_fetch_stream($stream, SSH2_STREAM_STDIO);
