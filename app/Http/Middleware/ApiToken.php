@@ -3,9 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-//use Auth;
-//use Illuminate\Support\Facades\Auth;
-use App\UserToken;
 use App\PublicToken;
 
 class ApiToken
@@ -23,11 +20,9 @@ class ApiToken
             return $next($request);
         }
         
-        if ($public_token = auth()->user()->public_token()->first()) {
+        if ($request->token && $public_token = PublicToken::where('token', $request->token)->first()) {
             if ($public_token->eternal == 1 || ($public_token->active == 1 && $public_token->dateTime > date("Y-m-d h:i:s"))) {
-                if ($request->token == $public_token->token) {
-                    return $next($request);
-                }
+                return $next($request);
             }
         }
         

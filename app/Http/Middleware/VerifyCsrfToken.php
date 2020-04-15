@@ -19,6 +19,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        "http://shell-controller.localhost/*"
+        //"http://shell-controller.localhost/*"
     ];
 }
