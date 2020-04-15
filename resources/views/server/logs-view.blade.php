@@ -18,6 +18,7 @@
                     <table class="table table-striped text-center">
                         <thead>
                             <tr>
+                            <th scope="col">Пользователь</th>
                             <th scope="col">Время</th>
                             <th scope="col">Команда</th>
                             <th scope="col">Результат</th>
@@ -26,6 +27,7 @@
                         <tbody>
                             @foreach ($logs as $log)
                             <tr>
+                            <td>{{ $log->user()->first()->name }}</td>
                             <td>{{ $log->time }}</td>
                             <td>{{ $log->command }}</td>
                             <td><textarea readonly class="form-control" rows="2">{{ $log->result }}</textarea></td>
