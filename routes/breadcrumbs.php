@@ -64,11 +64,11 @@ if (!Breadcrumbs::exists('server.logs')) {
 }
 
 if (!Breadcrumbs::exists('server.logs.date')) {
-    Breadcrumbs::for('server.logs.date', function ($trail, $data) {
-        $trail->parent('server');
-        $trail->push($data['date'], route('server.logs.date', [
-            'id' => $data['id'],
-            'date' => $data['date']
+    Breadcrumbs::for('server.logs.date', function ($trail, $id, $data) {
+        $trail->parent('server.logs', $id);
+        $trail->push($data, route('server.logs.date', [
+            'id' => $id,
+            'date' => $data
         ]));
     });
 }

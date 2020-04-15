@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                {{ Breadcrumbs::render('server.logs.date', ['date' => $date, 'id' => $id]) }}
+                {{ Breadcrumbs::render('server.logs.date', $id, $date) }}
 
                 @include('layouts.navbar')
 
