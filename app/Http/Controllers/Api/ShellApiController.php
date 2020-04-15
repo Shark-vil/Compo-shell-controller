@@ -62,7 +62,7 @@ class ShellApiController extends Controller
                 $this->session = ssh2_connect($server->ip, $server->port);
 
                 if ($this->session) {
-                    $decryption_password = openssl_decrypt($request->password, $this->ciphering, openssl_digest($request->user, 'MD5', TRUE), 0, $this->crypt_salt);
+                    $decryption_password = openssl_decrypt($server->password, $this->ciphering, openssl_digest($server->user, 'MD5', TRUE), 0, $this->crypt_salt);
 
                     ssh2_auth_password($this->session, $server->user, $decryption_password);
                     $stream = ssh2_exec($this->session,  $script->command);
