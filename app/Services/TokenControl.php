@@ -44,6 +44,12 @@ class TokenControl {
         return User::where('id', $user_id);
     }
 
+    /**
+     * Возвращает пользователя по токену.
+     *
+     * @param string  $token
+     * @return \App\User
+     */
     public function GetUserByToken($token)
     {
         $user_id = null;
